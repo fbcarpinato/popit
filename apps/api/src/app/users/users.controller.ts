@@ -9,6 +9,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   getProfile(@Request() request) {
-    return this.usersService.findOne(request.user.email);
+    return this.usersService.findOne({ email: request.user.email });
   }
 }
