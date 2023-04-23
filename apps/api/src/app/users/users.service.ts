@@ -15,12 +15,12 @@ export class UsersService {
   }
 
   async create(data: Prisma.UserCreateInput): Promise<User> {
-    const cryptedPassword = await bcrypt.hash(data.password, jwtConstants.SALT);
+    const hashedPassword = await bcrypt.hash(data.password, jwtConstants.SALT);
 
     return this.prisma.user.create({
       data: {
         ...data,
-        password: cryptedPassword,
+        password: hashedPassword,
       },
     });
   }
