@@ -1,5 +1,9 @@
+import { useUser } from '../../../context/userContext';
+
 export function Dashboard() {
-  return <div>Admin Dashboard</div>;
+  const { user } = useUser();
+
+  return <div>Welcome {user?.username}</div>;
 }
 
 export default Dashboard;

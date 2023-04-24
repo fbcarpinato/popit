@@ -1,6 +1,8 @@
 import { Button, Card, Form, Input, message } from 'antd';
 import axios from '../../utils/axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useUser } from '../../context/userContext';
+import { useEffect } from 'react';
 
 interface LoginForm {
   email: string;
@@ -8,11 +10,24 @@ interface LoginForm {
 }
 
 export function Login() {
+  const navigate = useNavigate();
+
+  const { user, refetch } = useUser();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/admin');
+    }
+  }, [user]);
+
   const onFinish = async (values: LoginForm) => {
     try {
-      const response = await axios.post('auth/login', values);
+      await axios.post('auth/login', values);
 
       message.success('Login successful');
+
+      await refetch();
+      navigate('/admin');
     } catch (error: any) {
       message.error(error.response.data.message);
     }

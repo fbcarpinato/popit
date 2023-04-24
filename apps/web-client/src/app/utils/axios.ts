@@ -19,12 +19,21 @@ instance.interceptors.request.use(
   }
 );
 
-instance.interceptors.response.use((response) => {
-  if (response.data.access_token) {
-    window.localStorage.setItem('token', response.data.access_token);
-  }
+instance.interceptors.response.use(
+  (response) => {
+    if (response.data.access_token) {
+      window.localStorage.setItem('token', response.data.access_token);
+    }
 
-  return response;
-});
+    return response;
+  },
+  (error) => {
+    if (error.response.status === 401) {
+      window.localStorage.removeItem('token');
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default instance;
