@@ -40,7 +40,7 @@ export function Admin() {
       <Layout className="site-layout" style={{ marginLeft: 200 }}>
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
           <Routes>
-            <Route path="/users" element={<Users />} />
+            <Route path="/users/*" element={<Users />} />
             <Route path="/" element={<Dashboard />} />
           </Routes>
         </Content>

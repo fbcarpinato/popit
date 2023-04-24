@@ -44,6 +44,7 @@ export function UsersList() {
   return (
     <Card title="Users" loading={loading}>
       <Table
+        rowKey={'id'}
         dataSource={users}
         columns={columns}
         pagination={{
