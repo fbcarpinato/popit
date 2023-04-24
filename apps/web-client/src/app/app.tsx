@@ -5,6 +5,7 @@ import { UserProvider } from './context/userContext';
 const Login = lazy(() => import('./pages/login/login'));
 const SignUp = lazy(() => import('./pages/signUp/signUp'));
 const Admin = lazy(() => import('./pages/admin/admin'));
+const User = lazy(() => import('./pages/user/user'));
 
 export function App() {
   return (
@@ -14,6 +15,7 @@ export function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/admin/*" element={<Admin />} />
+          <Route path="/*" element={<User />} />
         </Routes>
       </UserProvider>
     </Suspense>
