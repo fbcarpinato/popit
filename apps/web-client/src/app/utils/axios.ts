@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import axios from 'axios';
 
 const apiUrl = 'http://localhost:3000/api/';
@@ -9,10 +8,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const { origin } = new URL(config.baseURL as string);
-    const allowedOrigins = [apiUrl];
     const token = localStorage.getItem('token');
-    if (allowedOrigins.includes(origin)) {
+    if (config.baseURL === apiUrl) {
       config.headers.authorization = `Bearer ${token}`;
     }
     return config;
