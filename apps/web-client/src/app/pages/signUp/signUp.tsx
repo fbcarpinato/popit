@@ -2,17 +2,18 @@ import { Button, Card, Form, Input, message } from 'antd';
 import axios from '../../utils/axios';
 import { Link } from 'react-router-dom';
 
-interface LoginForm {
+interface SignUpForm {
   email: string;
+  username: string;
   password: string;
 }
 
-export function Login() {
-  const onFinish = async (values: LoginForm) => {
+export function SignUp() {
+  const onFinish = async (values: SignUpForm) => {
     try {
-      const response = await axios.post('auth/login', values);
+      const response = await axios.post('auth/sign-up', values);
 
-      message.success('Login successful');
+      message.success('Sign up successful');
     } catch (error: any) {
       message.error(error.response.data.message);
     }
@@ -29,8 +30,9 @@ export function Login() {
     >
       <Card style={{ maxWidth: 600, width: '100%' }} title="Welcome to PopIt">
         <Form
-          name="login"
+          name="Sign Up"
           layout="vertical"
+          style={{ maxWidth: 600, width: '100%' }}
           initialValues={{}}
           onFinish={onFinish}
           autoComplete="off"
@@ -42,7 +44,20 @@ export function Login() {
               {
                 required: true,
                 type: 'email',
-                message: 'Please insert a correct email',
+                message: 'Please enter a correct email',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter a username',
               },
             ]}
           >
@@ -58,12 +73,12 @@ export function Login() {
           </Form.Item>
 
           <Form.Item>
-            <Link to="/sign-up">Don't have an account?</Link>
+            <Link to="/login">Already have an account?</Link>
           </Form.Item>
 
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              Login
+              Sign Up
             </Button>
           </Form.Item>
         </Form>
@@ -72,4 +87,4 @@ export function Login() {
   );
 }
 
-export default Login;
+export default SignUp;
