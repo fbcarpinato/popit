@@ -34,11 +34,6 @@ export function UsersList() {
       dataIndex: 'username',
       key: 'username',
     },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: () => <>actions</>,
-    },
   ];
 
   return (
