@@ -19,3 +19,11 @@ model User {
   createdAt          DateTime  @default(now()) @db.Timestamptz(3)
   updatedAt          DateTime  @updatedAt @db.Timestamptz(3)
 }
+
+model Challenge {
+  id    Int     @default(autoincrement()) @id
+  name  String
+  tags  String[]
+  createdAt          DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime  @updatedAt @db.Timestamptz(3)
+}
