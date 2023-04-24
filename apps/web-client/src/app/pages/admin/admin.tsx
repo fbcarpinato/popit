@@ -1,5 +1,9 @@
 import { lazy } from 'react';
-import { UsergroupAddOutlined, DashboardOutlined } from '@ant-design/icons';
+import {
+  UsergroupAddOutlined,
+  DashboardOutlined,
+  TrophyOutlined,
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
 import { Link, Route, Routes } from 'react-router-dom';
@@ -8,6 +12,7 @@ const { Content, Footer, Sider } = Layout;
 
 const Dashboard = lazy(() => import('./dashboard/dashboard'));
 const Users = lazy(() => import('./users/users'));
+const Challenges = lazy(() => import('./challenges/challenges'));
 
 const items: MenuProps['items'] = [
   {
@@ -19,6 +24,11 @@ const items: MenuProps['items'] = [
     key: 'users',
     icon: <UsergroupAddOutlined />,
     label: <Link to="/admin/users">Users</Link>,
+  },
+  {
+    key: 'challenges',
+    icon: <TrophyOutlined />,
+    label: <Link to="/admin/challenges">Challenges</Link>,
   },
 ];
 
@@ -41,6 +51,7 @@ export function Admin() {
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
           <Routes>
             <Route path="/users/*" element={<Users />} />
+            <Route path="/challenges/*" element={<Challenges />} />
             <Route path="/" element={<Dashboard />} />
           </Routes>
         </Content>
