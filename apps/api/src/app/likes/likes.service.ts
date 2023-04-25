@@ -19,4 +19,10 @@ export class LikesService {
       data,
     });
   }
+
+  async delete(where: Prisma.LikeWhereUniqueInput): Promise<Like> {
+    return this.prisma.like.delete({
+      where,
+    });
+  }
 }

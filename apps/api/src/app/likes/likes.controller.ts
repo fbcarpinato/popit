@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { CreateLikeDto } from './validations/createLike.dto';
 import { LikesService } from './likes.service';
+import { DeleteLikeDto } from './validations/deleteLike.dto';
 
 @Controller('likes')
 export class LikesController {
@@ -20,6 +29,19 @@ export class LikesController {
         connect: {
           id: request.user.userId,
         },
+      },
+    });
+
+    return {};
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/')
+  async deleteLike(@Req() request, @Body() deleteLikeDto: DeleteLikeDto) {
+    await this.likesService.delete({
+      userId_contentId: {
+        contentId: deleteLikeDto.contentId,
+        userId: request.user.userId,
       },
     });
 
