@@ -26,6 +26,8 @@ export class ContentsService {
       orderBy,
       include: {
         likes: true,
+        user: true,
+        challenge: true,
         _count: {
           select: {
             likes: true,

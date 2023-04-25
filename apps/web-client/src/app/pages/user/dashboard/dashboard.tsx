@@ -71,7 +71,7 @@ export function Dashboard() {
         {contents.map((content) => (
           <Col key={content.id}>
             <Card
-              title={content.id}
+              title={`${content.user.username} posted this content for #${content.challenge.name}`}
               actions={[
                 <div
                   style={{
