@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -37,11 +38,11 @@ export class LikesController {
 
   @UseGuards(JwtAuthGuard)
   @Delete('/')
-  async deleteLike(@Req() request, @Body() deleteLikeDto: DeleteLikeDto) {
+  async deleteLike(@Req() request, @Query() deleteLikeDto: DeleteLikeDto) {
     await this.likesService.delete({
       userId_contentId: {
-        contentId: deleteLikeDto.contentId,
-        userId: request.user.userId,
+        contentId: +deleteLikeDto.contentId,
+        userId: +request.user.userId,
       },
     });
 

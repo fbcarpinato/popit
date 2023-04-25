@@ -25,6 +25,7 @@ export class ContentsService {
       where,
       orderBy,
       include: {
+        likes: true,
         _count: {
           select: {
             likes: true,

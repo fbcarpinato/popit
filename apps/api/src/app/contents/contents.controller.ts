@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
 import { ContentsService } from './contents.service';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { GetContentsDto } from './validations/getContents.dto';
@@ -10,17 +10,18 @@ export class ContentsController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/')
-  async getContents(@Query() getContentsDto: GetContentsDto) {
+  async getContents(@Req() request, @Query() getContentsDto: GetContentsDto) {
     const contents = await this.contentsService.findMany({
       take: +getContentsDto.take,
       skip: +getContentsDto.skip,
     });
-    console.log(contents);
 
     const totalCount = await this.contentsService.countAll();
 
     return {
-      data: contents.map(contentTransformer),
+      data: contents.map((content: any) =>
+        contentTransformer(content, request.user.userId)
+      ),
       totalCount,
     };
   }

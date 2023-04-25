@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Content } from '../../../models/content';
 import axios from '../../../utils/axios';
 import { Card, Col, Row, Image, Spin } from 'antd';
+import { LikeFilled, LikeOutlined } from '@ant-design/icons';
 
 export function Dashboard() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -21,6 +22,42 @@ export function Dashboard() {
     })();
   }, []);
 
+  const handleDeleteLike = async (contentId: number) => {
+    setContents(
+      contents.map((content) => {
+        if (content.id === contentId) {
+          return {
+            ...content,
+            liked: false,
+            likes: content.likes - 1,
+          };
+        }
+        return content;
+      })
+    );
+
+    await axios.delete(`likes?contentId=${contentId}`);
+  };
+
+  const handleCreateLike = async (contentId: number) => {
+    setContents(
+      contents.map((content) => {
+        if (content.id === contentId) {
+          return {
+            ...content,
+            liked: true,
+            likes: content.likes + 1,
+          };
+        }
+        return content;
+      })
+    );
+
+    await axios.post(`likes`, {
+      contentId,
+    });
+  };
+
   return (
     <div
       style={{
@@ -33,7 +70,32 @@ export function Dashboard() {
         {loading && <Spin spinning={loading} />}
         {contents.map((content) => (
           <Col key={content.id}>
-            <Card title={content.id}>
+            <Card
+              title={content.id}
+              actions={[
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 10,
+                  }}
+                >
+                  {content.likes}
+                  {content.liked ? (
+                    <LikeFilled
+                      onClick={() => handleDeleteLike(content.id)}
+                      key="like"
+                    />
+                  ) : (
+                    <LikeOutlined
+                      onClick={() => handleCreateLike(content.id)}
+                      key="like"
+                    />
+                  )}
+                </div>,
+              ]}
+            >
               <Image src={content.imageUrl} />
             </Card>
           </Col>
