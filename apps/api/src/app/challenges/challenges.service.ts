@@ -26,4 +26,30 @@ export class ChallengesService {
       orderBy,
     });
   }
+
+  async create(data: Prisma.ChallengeCreateInput): Promise<Challenge> {
+    return this.prisma.challenge.create({
+      data,
+    });
+  }
+
+  async update(params: {
+    where: Prisma.ChallengeWhereUniqueInput;
+    data: Prisma.ChallengeUpdateInput;
+  }): Promise<Challenge> {
+    const { where, data } = params;
+    return this.prisma.challenge.update({
+      data,
+      where,
+    });
+  }
+
+  async delete(where: Prisma.ChallengeWhereUniqueInput): Promise<Challenge> {
+    return this.prisma.challenge.delete({
+      where,
+      include: {
+        contents: true,
+      },
+    });
+  }
 }

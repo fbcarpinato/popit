@@ -33,9 +33,9 @@ model Challenge {
 
 model Content {
   id          Int       @id @default(autoincrement())
-  user        User      @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
-  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   challengeId Int
   imageUrl    String
   likes       Like[]
@@ -45,9 +45,9 @@ model Content {
 
 model Like {
   id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
-  content   Content  @relation(fields: [contentId], references: [id])
+  content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
   contentId Int
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
