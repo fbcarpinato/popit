@@ -24,6 +24,13 @@ export class ContentsService {
       cursor,
       where,
       orderBy,
+      include: {
+        _count: {
+          select: {
+            likes: true,
+          },
+        },
+      },
     });
   }
 }

@@ -10,16 +10,17 @@ export class ContentsController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/')
-  async getUsers(@Query() getContentsDto: GetContentsDto) {
-    const users = await this.contentsService.findMany({
+  async getContents(@Query() getContentsDto: GetContentsDto) {
+    const contents = await this.contentsService.findMany({
       take: +getContentsDto.take,
       skip: +getContentsDto.skip,
     });
+    console.log(contents);
 
     const totalCount = await this.contentsService.countAll();
 
     return {
-      data: users.map(contentTransformer),
+      data: contents.map(contentTransformer),
       totalCount,
     };
   }

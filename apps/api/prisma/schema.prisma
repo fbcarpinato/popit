@@ -12,31 +12,45 @@ datasource db {
 }
 
 model User {
-  id    Int     @default(autoincrement()) @id
-  email String  @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
   username  String
-  password String
-  contents Content[]
-  createdAt          DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt          DateTime  @updatedAt @db.Timestamptz(3)
+  password  String
+  contents  Content[]
+  likes     Like[]
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(3)
 }
 
 model Challenge {
-  id    Int     @default(autoincrement()) @id
-  name  String
-  tags  String[]
-  contents Content[]
-  createdAt          DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt          DateTime  @updatedAt @db.Timestamptz(3)
+  id        Int       @id @default(autoincrement())
+  name      String
+  tags      String[]
+  contents  Content[]
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(3)
 }
 
 model Content {
-  id    Int     @default(autoincrement()) @id
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
   challenge   Challenge @relation(fields: [challengeId], references: [id])
   challengeId Int
-  imageUrl String
-  createdAt          DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt          DateTime  @updatedAt @db.Timestamptz(3)
+  imageUrl    String
+  likes       Like[]
+  createdAt   DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime  @updatedAt @db.Timestamptz(3)
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  content   Content  @relation(fields: [contentId], references: [id])
+  contentId Int
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  @@unique([userId, contentId])
 }
