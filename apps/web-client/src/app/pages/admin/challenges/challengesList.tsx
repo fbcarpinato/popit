@@ -1,7 +1,9 @@
-import { Card, Table, Tag } from 'antd';
+import { Button, Card, Table, Tag, Typography, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { Challenge } from '../../../models/challenge';
 import axios from '../../../utils/axios';
+import { Link } from 'react-router-dom';
+import { PlusCircleOutlined } from '@ant-design/icons';
 
 export function ChallengesList() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,11 +26,24 @@ export function ChallengesList() {
     })();
   }, [page]);
 
+  const handleDelete = async (challengeId: number) => {
+    await axios.delete(`challenges/${challengeId}`);
+
+    setChallenges(
+      challenges.filter((challenge) => challenge.id !== challengeId)
+    );
+
+    message.success('Challenge deleted successfully');
+  };
+
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      render: (name: string, challenge: Challenge) => (
+        <Link to={`/admin/challenges/${challenge.id}`}>{name}</Link>
+      ),
     },
     {
       title: 'Tags',
@@ -41,10 +56,29 @@ export function ChallengesList() {
           </Tag>
         )),
     },
+    {
+      title: 'Actions',
+      render: (challenge: Challenge) => (
+        <Typography.Link onClick={() => handleDelete(challenge.id)}>
+          Delete
+        </Typography.Link>
+      ),
+    },
   ];
 
   return (
-    <Card title="Challenges" loading={loading}>
+    <Card
+      title="Challenges"
+      loading={loading}
+      extra={[
+        <Link to="/admin/challenges/new">
+          <Button>
+            <PlusCircleOutlined />
+            Create
+          </Button>
+        </Link>,
+      ]}
+    >
       <Table
         rowKey={'id'}
         dataSource={challenges}

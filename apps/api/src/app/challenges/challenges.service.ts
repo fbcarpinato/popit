@@ -10,6 +10,14 @@ export class ChallengesService {
     return this.prisma.challenge.count();
   }
 
+  async findOne(
+    challengeWhereUniqueInput: Prisma.ChallengeWhereUniqueInput
+  ): Promise<Challenge | null> {
+    return this.prisma.challenge.findUnique({
+      where: challengeWhereUniqueInput,
+    });
+  }
+
   async findMany(params: {
     skip?: number;
     take?: number;

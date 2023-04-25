@@ -37,6 +37,16 @@ export class ChallengesController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/:id')
+  async getChallenge(@Param('id') id) {
+    const challenge = await this.challengesService.findOne({
+      id: +id,
+    });
+
+    return challengeTransformer(challenge);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async createChallenge(@Body() createChallengeDto: CreateChallengeDto) {
     const challenge = await this.challengesService.create({
